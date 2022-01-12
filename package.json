@@ -1,5 +1,5 @@
 {
-  "name": "@stylelint/postcss-css-in-js",
+  "name": "@hiro0218/postcss-css-in-js",
   "version": "0.37.2",
   "description": "PostCSS syntax for parsing CSS in JS literals",
   "keywords": [
