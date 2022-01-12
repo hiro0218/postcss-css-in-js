@@ -141,14 +141,6 @@ function loadBabelOpts(opts) {
 		}
 
 		opts[key] = fileOpts[key];
-
-		if (Array.isArray(fileOpts[key]) && Array.isArray(opts.parserOpts[key])) {
-			// combine arrays for plugins
-			opts.parserOpts[key] = opts.parserOpts[key].concat(fileOpts[key]);
-		} else {
-			// because some options need to be passed to parser also
-			opts.parserOpts[key] = fileOpts[key];
-		}
 	}
 
 	return opts;
