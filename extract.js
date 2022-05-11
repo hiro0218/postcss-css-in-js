@@ -141,6 +141,33 @@ function loadBabelOpts(opts) {
 		}
 
 		opts[key] = fileOpts[key];
+
+		if (Array.isArray(fileOpts[key]) && Array.isArray(opts.parserOpts[key])) {
+			// combine arrays for plugins
+			// plugins in fileOpts could be string, array or object
+			for (const plugin of fileOpts[key]) {
+				const option =
+					Array.isArray(plugin) || typeof plugin === 'string'
+						? plugin
+						: [plugin.key, plugin.options];
+
+				opts.parserOpts[key] = [...opts.parserOpts[key], option];
+			}
+		} else {
+			// because some options need to be passed to parser also
+			opts.parserOpts[key] = fileOpts[key];
+		}
+	}
+
+	// avoid conflicting with the legacy decorators plugin
+	if (opts.plugins && opts.plugins.some((p) => p.key === 'proposal-decorators')) {
+		const index = opts.parserOpts.plugins.findIndex(
+			(p) => Array.isArray(p) && p[0] === 'decorators',
+		);
+
+		if (index > -1) {
+			opts.parserOpts.plugins.splice(index, 1);
+		}
 	}
 
 	return opts;
